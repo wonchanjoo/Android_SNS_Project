@@ -15,8 +15,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="id"
         app:layout_constraintStart_toStartOf="parent"
+        android:hint="id"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton

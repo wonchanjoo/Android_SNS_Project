@@ -1,0 +1,56 @@
+package com.example.sns_project
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sns_project.databinding.SearchBinding
+import com.google.firebase.firestore.QueryDocumentSnapshot
+
+data class ID(val id: String) {
+    constructor(doc: QueryDocumentSnapshot) :
+            this(doc.id)
+}
+
+class MyViewHolder(val binding: SearchBinding) : RecyclerView.ViewHolder(binding.root)
+
+class IdAdapter(private val context: Context, private var ids: List<ID>)
+    : RecyclerView.Adapter<MyViewHolder>() {
+
+    fun interface OnItemClickListener {
+        fun onItemClick(student_id: String)
+    }
+
+    private var itemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
+
+    fun updateList(newList: List<ID>) {
+        ids = newList
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding: SearchBinding = SearchBinding.inflate(inflater, parent, false)
+        return MyViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val item = ids[position]
+        holder.binding.userId.text = item.id
+        /* holder.binding.textID.setOnClickListener {
+             //AlertDialog.Builder(context).setMessage("You clicked ${student.name}.").show()
+             itemClickListener?.onItemClick(item.id)
+         }*/
+        /*holder.binding.textName.setOnClickListener {
+            //AlertDialog.Builder(context).setMessage("You clicked ${student.name}.").show()
+            itemClickListener?.onItemClick(item.id)
+        }*/
+
+    }
+
+    override fun getItemCount() = ids.size
+}

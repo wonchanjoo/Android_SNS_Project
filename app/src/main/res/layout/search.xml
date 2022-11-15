@@ -17,9 +17,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:layout_weight="1"
-        android:text="팔로우"
+        android:layout_weight="2"
         android:backgroundTint="#424242"
+        android:text="팔로우"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
 </LinearLayout>
