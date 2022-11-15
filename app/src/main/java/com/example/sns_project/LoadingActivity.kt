@@ -9,8 +9,10 @@ class LoadingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
-        val handler:Handler = Handler()
-        handler.postDelayed({
-            finish() },2000)
+
+        // 2초 뒤 LoginActivity로 이동
+        Handler().postDelayed({
+            startActivity(Intent(this, LoginActivity::class.java))
+        }, 2000L)
     }
 }
