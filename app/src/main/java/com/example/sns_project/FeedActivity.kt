@@ -17,5 +17,9 @@ class FeedActivity : AppCompatActivity() {
             val intent = Intent(this, PostingActivity::class.java)
             startActivity(intent)
         }
+        binding.friendBtn.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

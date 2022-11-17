@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sns_project.databinding.ActivitySearchBinding
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
@@ -18,7 +19,6 @@ class SearchActivity :AppCompatActivity() {
     private var adapter: IdAdapter? = null
     private val db:FirebaseFirestore = Firebase.firestore
     private val idsCollectionRef = db.collection("users")
-    private var snapshotListener :ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +30,7 @@ class SearchActivity :AppCompatActivity() {
 
         binding.recyclerView.adapter = adapter
 
+        friendList()
 
         binding.searchButton.setOnClickListener{
             var id = binding.searchEditText.text.toString()
@@ -38,8 +39,24 @@ class SearchActivity :AppCompatActivity() {
 
     }
 
+   private fun friendList(){
+        var uemail = Firebase.auth.currentUser?.email.toString()
+        //println("###############3 ${uemail}")
+       idsCollectionRef.whereArrayContains("followers",uemail).get()
+           .addOnSuccessListener {
+               val ids= mutableListOf<ID>()
+               for(doc in it) {
+                   ids.add(ID(doc))
+               }
+               adapter?.updateList(ids)
+           }
+           .addOnFailureListener{
+           }
+    }
+
+
     private fun updateList(id : String)  {
-        idsCollectionRef.whereEqualTo("id",id).get()
+        idsCollectionRef.whereEqualTo("uid",id).get()
             .addOnSuccessListener {
                 val ids = mutableListOf<ID>()
                 for (doc in it) {
