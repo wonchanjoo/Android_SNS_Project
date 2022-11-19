@@ -9,20 +9,19 @@
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:fontFamily="@font/apple_sd_gothic_neo_l"
+        android:layout_marginTop="120dp"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:text="로그인"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/signUpBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginWarning" />
 
     <Button
         android:id="@+id/signUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/apple_sd_gothic_neo_l"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:text="회원가입"
         app:layout_constraintBaseline_toBaselineOf="@+id/loginBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,24 +30,24 @@
 
     <ImageView
         android:id="@+id/logoImg"
-        android:layout_width="227dp"
-        android:layout_height="265dp"
+        android:layout_width="340dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sangsangbugi" />
+        app:srcCompat="@drawable/hansung_university" />
 
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:ems="10"
-        android:fontFamily="@font/apple_sd_gothic_neo_l"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:hint="email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/editPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoImg" />
@@ -57,13 +56,22 @@
         android:id="@+id/editPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
-        android:fontFamily="@font/apple_sd_gothic_neo_l"
+        android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:hint="passwd"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/editEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+
+    <TextView
+        android:id="@+id/loginWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/apple_sd_gothic_neo_l"
+        android:textColor="#FF0000"
+        app:layout_constraintStart_toStartOf="@+id/editPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

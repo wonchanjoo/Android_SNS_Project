@@ -1,8 +1,8 @@
 package com.example.sns_project
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sns_project.databinding.RecyclerviewPostingBinding
@@ -19,6 +19,9 @@ data class Post(val date: Timestamp, val image: String, val like: Int, val publi
 class PostingViewHolder(val binding: RecyclerviewPostingBinding) : RecyclerView.ViewHolder(binding.root)
 
 class PostingAdapter(private val context: Context, private var posts: List<Post>) : RecyclerView.Adapter<PostingViewHolder>() {
+    val emptyHeart = R.drawable.empty_heart
+    val fillHeart = R.drawable.fill_heart
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecyclerviewPostingBinding.inflate(inflater, parent, false)
@@ -26,10 +29,12 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
     }
 
     override fun onBindViewHolder(holder: PostingViewHolder, position: Int) {
-        Log.e("PostingAdapter", "onBindViewHolder")
         val post = posts[position]
         holder.binding.id.text = post.publisher.split("@")[0]
+        holder.binding.id2.text = post.publisher.split("@")[0]
         holder.binding.content.text = post.text
+        holder.binding.likes.text = "${post.like} likes"
+        holder.binding.heart.setOnClickListener { heartClick(it) }
     }
 
     override fun getItemCount() = posts.size
@@ -37,5 +42,9 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
     fun updateList(newList: List<Post>) {
         posts = newList
         notifyDataSetChanged()
+    }
+
+    private fun heartClick(v: View) {
+
     }
 }

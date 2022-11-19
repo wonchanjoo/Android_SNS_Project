@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this, FeedActivity::class.java)) // FeedActivity로 이동
                     finish()
                 } else { // 로그인 실패
-
+                    binding.loginWarning.text = "이메일이나 비밀번호가 틀렸습니다."
                 }
             }
     }
