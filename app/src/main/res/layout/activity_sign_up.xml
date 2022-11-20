@@ -6,53 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
-  <EditText
-      android:id="@+id/signupEmail"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="150dp"
-      android:ems="10"
-      android:hint="email"
-      android:inputType="textPersonName"
-      android:minHeight="48dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/singupText" />
-
-  <EditText
-      android:id="@+id/signupPasswd"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="30dp"
-      android:ems="10"
-      android:hint="passwd"
-      android:inputType="textPassword"
-      android:minHeight="48dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/signupEmail" />
-
-  <Button
-      android:id="@+id/returnBtn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="돌아가기"
-      app:layout_constraintEnd_toStartOf="@+id/signUpBtn"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/signupPasswd" />
-
-  <Button
-      android:id="@+id/signUpBtn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="회원가입"
-      app:layout_constraintBaseline_toBaselineOf="@+id/returnBtn"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/returnBtn" />
-
   <ImageView
       android:id="@+id/imageView"
       android:layout_width="134dp"
@@ -69,10 +22,84 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="55dp"
       android:layout_marginEnd="25dp"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
       android:text="회원가입"
       android:textSize="50dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/imageView"
       app:layout_constraintTop_toTopOf="parent" />
+
+  <EditText
+      android:id="@+id/signupEmail"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="100dp"
+      android:ems="10"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
+      android:hint="email"
+      android:inputType="textPersonName"
+      android:minHeight="48dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/singupText" />
+
+  <EditText
+      android:id="@+id/signupPasswd"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:ems="10"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
+      android:hint="Password"
+      android:inputType="textPassword"
+      android:minHeight="48dp"
+      app:layout_constraintStart_toStartOf="@+id/signupEmail"
+      app:layout_constraintTop_toBottomOf="@+id/signupEmail" />
+
+  <EditText
+      android:id="@+id/signupPasswdConfirm"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:ems="10"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
+      android:hint="Password Confirm"
+      android:inputType="textPassword"
+      android:minHeight="48dp"
+      app:layout_constraintStart_toStartOf="@+id/signupPasswd"
+      app:layout_constraintTop_toBottomOf="@+id/signupPasswd" />
+
+  <TextView
+      android:id="@+id/warning"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:fontFamily="@font/apple_sd_gothic_neo_l"
+      android:textColor="#FF0000"
+      app:layout_constraintStart_toStartOf="@+id/signupPasswdConfirm"
+      app:layout_constraintTop_toBottomOf="@+id/signupPasswdConfirm" />
+
+  <Button
+      android:id="@+id/returnBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
+      android:text="돌아가기"
+      app:layout_constraintEnd_toStartOf="@+id/signUpBtn"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/warning" />
+
+  <Button
+      android:id="@+id/signUpBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/apple_sd_gothic_neo_m"
+      android:text="가입하기"
+      app:layout_constraintBaseline_toBaselineOf="@+id/returnBtn"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/returnBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
