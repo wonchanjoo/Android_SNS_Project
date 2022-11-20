@@ -7,13 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sns_project.databinding.ActivityPostingBinding
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -72,10 +71,11 @@ class PostingActivity : AppCompatActivity() {
                         // date
                         val timestamp = Timestamp.now()
 
-                        // uid - feed activity에서 posting activity에 주는 intent에 담아서 전달
+                        // publisher
+                        val userEmail = intent.getStringExtra("userEmail")
                         val uid = "testUid"
 
-                        uploadPost(timestamp, uri, uid, writing)
+                        uploadPost(timestamp, uri, userEmail!!, writing)
                         //hideProgressBar()
                     },
                     mErrorHandler = {
@@ -136,12 +136,12 @@ class PostingActivity : AppCompatActivity() {
                 }
             }
     }
-    private fun uploadPost(timestamp: Timestamp, uri: String, uid: String, writing: String) {
+    private fun uploadPost(timestamp: Timestamp, uri: String, userEmail: String, writing: String) {
         val postMap = hashMapOf( // 여러 자식(키,값)을 한번에 쓰기
             "date" to timestamp,
             "image" to uri,
             "like" to 0,
-            "publisher" to uid,
+            "publisher" to userEmail,
             "text" to writing
         )
 

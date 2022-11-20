@@ -34,6 +34,7 @@ class FeedActivity : AppCompatActivity() {
 
         binding.postingBtn.setOnClickListener {
             val intent = Intent(this, PostingActivity::class.java)
+            intent.putExtra("userEmail", myAccount.email);
             startActivity(intent)
         }
         binding.friendBtn.setOnClickListener {
