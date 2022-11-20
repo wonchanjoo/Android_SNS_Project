@@ -13,6 +13,7 @@ class LoadingActivity : AppCompatActivity() {
         // 2초 뒤 LoginActivity로 이동
         Handler().postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }, 2000L)
     }
 }
