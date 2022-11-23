@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sns_project.databinding.RecyclerviewPostingBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 data class Post(val date: Timestamp, val image: String, val like: Int, val publisher: String, val text: String) {
     constructor(doc: QueryDocumentSnapshot) :
@@ -19,9 +21,6 @@ data class Post(val date: Timestamp, val image: String, val like: Int, val publi
 class PostingViewHolder(val binding: RecyclerviewPostingBinding) : RecyclerView.ViewHolder(binding.root)
 
 class PostingAdapter(private val context: Context, private var posts: List<Post>) : RecyclerView.Adapter<PostingViewHolder>() {
-    val emptyHeart = R.drawable.empty_heart
-    val fillHeart = R.drawable.fill_heart
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecyclerviewPostingBinding.inflate(inflater, parent, false)
@@ -32,9 +31,9 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
         val post = posts[position]
         holder.binding.id.text = post.publisher.split("@")[0]
         holder.binding.id2.text = post.publisher.split("@")[0]
-        holder.binding.content.text = post.text
-        holder.binding.likes.text = "${post.like} likes"
-        holder.binding.heart.setOnClickListener { heartClick(it) }
+        holder.binding.content.text = post.text // 게시물 내용
+        holder.binding.likes.text = "${post.like} likes" // 좋아요 수 표시
+        holder.binding.heartBtn.setOnClickListener { heartClick(holder) }
     }
 
     override fun getItemCount() = posts.size
@@ -44,7 +43,13 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
         notifyDataSetChanged()
     }
 
-    private fun heartClick(v: View) {
-
+    private fun heartClick(holder: PostingViewHolder) {
+        if(holder.binding.heartBtn.isSelected) { // 버튼이 눌려져 있으면 (좋아요 취소)
+            holder.binding.heartBtn.text = "♡"
+            holder.binding.heartBtn.isSelected = false
+        } else { // 버튼이 눌려져 있지 않으면 (좋아요)
+            holder.binding.heartBtn.text = "♥"
+            holder.binding.heartBtn.isSelected = true
+        }
     }
 }

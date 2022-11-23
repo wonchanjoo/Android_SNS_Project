@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import com.example.sns_project.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,7 +40,7 @@ class SignUpActivity : AppCompatActivity() {
             binding.signupPasswdConfirm.setText("")
             binding.signupPasswdConfirm.focusable
         }
-        // 비밀번호 확인이 맞은 경우
+        // 비밀번호 확인이 맞은 경우 - 회원가입 성공!
         else {
             Firebase.auth.createUserWithEmailAndPassword(email, password) // 회원가입하고
             addAccountToDatabase(email)// Fire store에 계정 정보 넣기
@@ -59,9 +58,10 @@ class SignUpActivity : AppCompatActivity() {
         val uid = email.split("@")[0] // uid 분리
         val userMap = hashMapOf(
             "email" to email,
+            "uid" to uid,
             "followers" to emptyList<String>(),
             "followings" to emptyList<String>(),
-            "uid" to uid
+            "like_posts" to emptyList<String>()
         )
         val db: FirebaseFirestore = Firebase.firestore
         val usersCollectionRef = db.collection("users")

@@ -30,16 +30,6 @@
         app:layout_constraintTop_toBottomOf="@+id/id"
         app:srcCompat="@drawable/sangsangbugi" />
 
-    <ImageView
-        android:id="@+id/heart"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:srcCompat="@drawable/empty_heart" />
-
     <TextView
         android:id="@+id/likes"
         android:layout_width="wrap_content"
@@ -49,7 +39,7 @@
         android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:text="0"
         android:textSize="22sp"
-        app:layout_constraintStart_toEndOf="@+id/heart"
+        app:layout_constraintStart_toEndOf="@+id/heartBtn"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
     <TextView
@@ -62,7 +52,16 @@
         android:text="id"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heart" />
+        app:layout_constraintTop_toBottomOf="@+id/heartBtn" />
+
+    <Button
+        android:id="@+id/heartBtn"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:text="♡"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
 
     <TextView
         android:id="@+id/content"
@@ -72,7 +71,7 @@
         android:fontFamily="@font/apple_sd_gothic_neo_l"
         android:text="게시물 내용"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/id2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/id2" />

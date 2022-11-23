@@ -64,16 +64,18 @@ class FeedActivity : AppCompatActivity() {
         }
     }
 
+    // 전체 post 중에서 내가 팔로우 하는 사람이 올린 post만 가져와 recyclerView에 넣어준다.
     private fun updateFollowingPost() {
-        if(myAccount.followings == null) return;
+        if(myAccount.followings == null) return; // 내가 팔로우하는 사람이 없으면 return;
 
         postsCollectionRef.get().addOnSuccessListener {
             val posts = mutableListOf<Post>()
+            // 내가 팔로우 하는 사람이나 나의 게시물을 posts에 추가한다.
             for(doc in it) {
-                if(myAccount.followings!!.contains(doc["publisher"]))
+                if(myAccount.followings!!.contains(doc["publisher"]) || doc["publisher"] == myAccount.email)
                     posts.add(Post(doc))
             }
-            adapter?.updateList(posts)
+            adapter?.updateList(posts) // recyclerView 업데이트
         }
     }
 }
