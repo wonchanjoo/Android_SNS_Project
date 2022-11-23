@@ -26,6 +26,7 @@ class SignUpActivity : AppCompatActivity() {
         val email = binding.signupEmail.text.toString()
         val password = binding.signupPasswd.text.toString()
         val passwordConfirm = binding.signupPasswdConfirm.text.toString()
+
         // 비밀번호가 6자 미만인 경우
         if(password.length < 6) {
             binding.warning.text = "비밀번호는 6자 이상이어야 합니다."

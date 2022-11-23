@@ -82,6 +82,13 @@ class PostingActivity : AppCompatActivity() {
                 )
             }
         }
+
+        // 뒤로가기 버튼 클릭 -> FeedActivity로 이동
+        binding.toFeedBtn.setOnClickListener {
+            val intent = Intent(this, FeedActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     /*
@@ -125,7 +132,8 @@ class PostingActivity : AppCompatActivity() {
                     // 파일 업로드에 성공했기 때문에 파일을 다시 받아 오도록 해야함
                     storage.reference.child(fileName).downloadUrl
                         .addOnSuccessListener { uri ->
-                            mSuccessHandler(uri.toString())
+                            //mSuccessHandler(uri.toString())
+                            mSuccessHandler(fileName)
                         }.addOnFailureListener {
                             mErrorHandler()
                         }

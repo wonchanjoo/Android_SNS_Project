@@ -1,6 +1,7 @@
 package com.example.sns_project
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 
 data class Post(val id: String, val date: Timestamp, val image: String, val like: Int, val publisher: String, val text: String) {
     constructor(doc: QueryDocumentSnapshot) :
@@ -21,9 +25,11 @@ data class Post(val id: String, val date: Timestamp, val image: String, val like
 class PostingViewHolder(val binding: RecyclerviewPostingBinding) : RecyclerView.ViewHolder(binding.root)
 
 class PostingAdapter(private val context: Context, private var posts: List<Post>) : RecyclerView.Adapter<PostingViewHolder>() {
-    var like_posts: ArrayList<String>? = null
+    private var like_posts: ArrayList<String>? = null
+    private lateinit var storageReference: StorageReference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostingViewHolder {
+        storageReference = Firebase.storage.reference
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecyclerviewPostingBinding.inflate(inflater, parent, false)
         return PostingViewHolder(binding)
@@ -40,6 +46,14 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
         if(like_posts!!.contains(post.id)) {
             holder.binding.heartBtn.isSelected = true
             holder.binding.heartBtn.text = "♥"
+        }
+
+        val imageRef = storageReference.child(post.image)
+        imageRef.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
+            val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+            holder.binding.image.setImageBitmap(bmp)
+        }?.addOnFailureListener {
+            Log.e("PostingAdapter", "image error")
         }
     }
 

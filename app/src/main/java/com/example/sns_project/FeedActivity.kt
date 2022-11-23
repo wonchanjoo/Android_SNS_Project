@@ -36,10 +36,17 @@ class FeedActivity : AppCompatActivity() {
             val intent = Intent(this, PostingActivity::class.java)
             intent.putExtra("userEmail", myAccount.email);
             startActivity(intent)
+            finish()
         }
         binding.friendBtn.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+        binding.goHomeBtn.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         binding.postingRecyclerView.setHasFixedSize(true)

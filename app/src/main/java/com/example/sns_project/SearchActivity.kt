@@ -1,5 +1,6 @@
 package com.example.sns_project
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -36,7 +37,11 @@ class SearchActivity :AppCompatActivity() {
             var id = binding.searchEditText.text.toString()
             updateList(id)
         }
-
+        binding.toFeedBtn.setOnClickListener {
+            val intent = Intent(this, FeedActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
    private fun friendList(){
