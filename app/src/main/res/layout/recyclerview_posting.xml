@@ -38,7 +38,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/apple_sd_gothic_neo_m"
         android:text="0"
-        android:textSize="22sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/heartBtn"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
