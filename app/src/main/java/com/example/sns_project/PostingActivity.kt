@@ -73,10 +73,8 @@ class PostingActivity : AppCompatActivity() {
 
                         // publisher
                         val userEmail = intent.getStringExtra("userEmail")
-                        val uid = "testUid"
 
                         uploadPost(timestamp, uri, userEmail!!, writing)
-                        //hideProgressBar()
                     },
                     mErrorHandler = {
                         Toast.makeText(this, "게시글 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -149,7 +147,6 @@ class PostingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Toast.makeText(this, "upload success", Toast.LENGTH_SHORT).show()
                 // feedActivity로 이동
-                //onBackPressed() // finish()
                 val intent = Intent(this, FeedActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
@@ -187,7 +184,6 @@ class PostingActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode != Activity.RESULT_OK) {
-            //Toast.makeText(this,"잘못된 접근입니다",Toast.LENGTH_SHORT).show()
             return
         }
         when(requestCode){
@@ -196,7 +192,6 @@ class PostingActivity : AppCompatActivity() {
                 if( selectedImageURI != null ) {
                     val imageBtn = binding.uploadPictureBtn
                     imageBtn.setImageURI(selectedImageURI)
-                    //imageURI = selectedImageURI
                 }else {
                     Toast.makeText(this,"이미지를 가져오지 못했습니다1",Toast.LENGTH_SHORT).show()
                 }
