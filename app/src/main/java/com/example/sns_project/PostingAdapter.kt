@@ -1,26 +1,28 @@
 package com.example.sns_project
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sns_project.databinding.RecyclerviewPostingBinding
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-data class Post(val date: Timestamp, val image: String, val like: Int, val publisher: String, val text: String) {
+data class Post(val id: String, val date: Timestamp, val image: String, val like: Int, val publisher: String, val text: String) {
     constructor(doc: QueryDocumentSnapshot) :
-            this(doc["date"] as Timestamp, doc["image"].toString(), doc["like"].toString().toIntOrNull() ?: 0, doc["publisher"].toString(), doc["text"].toString())
-    constructor(map: Map<*, *>) :
-            this(map["date"] as Timestamp, map["image"].toString(), map["like"].toString().toIntOrNull() ?: 0, map["publisher"].toString(), map["text"].toString())
+            this(doc.id, doc["date"] as Timestamp, doc["image"].toString(), doc["like"].toString().toIntOrNull() ?: 0, doc["publisher"].toString(), doc["text"].toString())
 }
 
 class PostingViewHolder(val binding: RecyclerviewPostingBinding) : RecyclerView.ViewHolder(binding.root)
 
 class PostingAdapter(private val context: Context, private var posts: List<Post>) : RecyclerView.Adapter<PostingViewHolder>() {
+    var like_posts: ArrayList<String>? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecyclerviewPostingBinding.inflate(inflater, parent, false)
@@ -33,23 +35,49 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
         holder.binding.id2.text = post.publisher.split("@")[0]
         holder.binding.content.text = post.text // 게시물 내용
         holder.binding.likes.text = "${post.like} likes" // 좋아요 수 표시
-        holder.binding.heartBtn.setOnClickListener { heartClick(holder) }
+        holder.binding.heartBtn.setOnClickListener { heartClick(holder, post) }
+        if(like_posts == null) return;
+        if(like_posts!!.contains(post.id)) {
+            holder.binding.heartBtn.isSelected = true
+            holder.binding.heartBtn.text = "♥"
+        }
     }
 
     override fun getItemCount() = posts.size
 
-    fun updateList(newList: List<Post>) {
+    fun updateList(newList: List<Post>, like_posts: ArrayList<String>?) {
         posts = newList
+        this.like_posts = like_posts
         notifyDataSetChanged()
     }
 
-    private fun heartClick(holder: PostingViewHolder) {
+    private fun heartClick(holder: PostingViewHolder, post: Post) {
+        val usersCollectionRef = Firebase.firestore.collection("users") // users collection
+        val myEmail = Firebase.auth.currentUser?.email // 나의 이메일
+        if(myEmail == null) {
+            Log.e("PostingAdapter", "get current user email error")
+            return;
+        }
+        val userDocumentRef = usersCollectionRef.document(myEmail) // 나의 Document Reference
+
+        val postsCollectionRef = Firebase.firestore.collection("posts") // posts collection
+
         if(holder.binding.heartBtn.isSelected) { // 버튼이 눌려져 있으면 (좋아요 취소)
-            holder.binding.heartBtn.text = "♡"
-            holder.binding.heartBtn.isSelected = false
-        } else { // 버튼이 눌려져 있지 않으면 (좋아요)
-            holder.binding.heartBtn.text = "♥"
-            holder.binding.heartBtn.isSelected = true
+            holder.binding.heartBtn.text = "♡" // 버튼 text를 빈 하트로 변경
+            holder.binding.heartBtn.isSelected = false // 선택되지 않은 상태로 변경
+            userDocumentRef.update("like_posts", FieldValue.arrayRemove(post.id)) // like_post에 post.id 삭제
+            postsCollectionRef.document(post.id).get().addOnSuccessListener {
+                postsCollectionRef.document(post.id).update("like", FieldValue.increment(-1)) // 좋아요 감소
+                holder.binding.likes.text = (it["like"].toString().toInt() - 1).toString() + " likes"
+            }
+        } else if(!holder.binding.heartBtn.isSelected){ // 버튼이 눌려져 있지 않으면 (좋아요)
+            holder.binding.heartBtn.text = "♥" // 버튼 text를 채워진 하트로 변경
+            holder.binding.heartBtn.isSelected = true // 선택된 상태로 변경
+            userDocumentRef.update("like_posts", FieldValue.arrayUnion(post.id)) // like_posts에 post.id 추가
+            postsCollectionRef.document(post.id).get().addOnSuccessListener {
+                postsCollectionRef.document(post.id).update("like", FieldValue.increment(1)) // 좋아요 증가
+                holder.binding.likes.text = (it["like"].toString().toInt() + 1).toString() + " likes"
+            }
         }
     }
 }

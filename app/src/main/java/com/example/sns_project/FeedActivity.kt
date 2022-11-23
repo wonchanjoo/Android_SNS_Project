@@ -11,12 +11,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-data class User(var email: String, var followers: ArrayList<String>?, var followings: ArrayList<String>?, var uid: String)
+data class User(var email: String, var followers: ArrayList<String>?, var followings: ArrayList<String>?, var like_posts: ArrayList<String>?, var uid: String)
 class FeedActivity : AppCompatActivity() {
     private lateinit var binding : ActivityFeedBinding
     private lateinit var currentUser: FirebaseUser
     private var adapter: PostingAdapter? = null
-    private var myAccount = User("", null, null, "")
+    private var myAccount = User("", null, null, null, "")
     private val db: FirebaseFirestore = Firebase.firestore
     private val usersCollectionRef = db.collection("users")
     private val postsCollectionRef = db.collection("posts")
@@ -58,6 +58,7 @@ class FeedActivity : AppCompatActivity() {
             myAccount.email = it["email"].toString()
             myAccount.followers = it["followers"] as ArrayList<String>?
             myAccount.followings = it["followings"] as ArrayList<String>?
+            myAccount.like_posts = it["like_posts"] as ArrayList<String>?
             myAccount.uid = it["uid"].toString()
 
             updateFollowingPost() // 내가 팔로우한 사람의 게시물들을 화면에 보여준다
@@ -75,7 +76,7 @@ class FeedActivity : AppCompatActivity() {
                 if(myAccount.followings!!.contains(doc["publisher"]) || doc["publisher"] == myAccount.email)
                     posts.add(Post(doc))
             }
-            adapter?.updateList(posts) // recyclerView 업데이트
+            adapter?.updateList(posts, myAccount.like_posts) // recyclerView 업데이트
         }
     }
 }
