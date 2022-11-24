@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
@@ -54,6 +53,18 @@ class PostingAdapter(private val context: Context, private var posts: List<Post>
             holder.binding.image.setImageBitmap(bmp)
         }?.addOnFailureListener {
             Log.e("PostingAdapter", "image error")
+        }
+
+        Firebase.firestore.collection("users").document(post.publisher).get().addOnSuccessListener { it ->
+            val filename = it["image"].toString()
+            val userImageRef = storageReference.child(filename)
+            userImageRef.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
+                val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+                holder.binding.userImage.setImageBitmap(bmp)
+                //Glide.with(context).load(holder.binding.userImage.resources).circleCrop().into(holder.binding.userImage)
+            }?.addOnFailureListener {
+                Log.e("PostingAdapter", "user image error")
+            }
         }
     }
 
