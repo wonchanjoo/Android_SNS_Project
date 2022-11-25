@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.sns_project_watch.databinding.ActivityLoginBinding
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -15,9 +16,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         binding.loginBtn.setOnClickListener {
             val email = binding.emailEdit.text.toString()
-            val password = binding.passwordEdit.toString()
+            val password = binding.passwordEdit.text.toString()
 
             Firebase.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) {
