@@ -12,6 +12,7 @@
         android:theme="@style/Theme.SNS_Project">
         <activity
             android:name=".FeedActivity"
+            android:theme="@style/FullScreenTheme"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
