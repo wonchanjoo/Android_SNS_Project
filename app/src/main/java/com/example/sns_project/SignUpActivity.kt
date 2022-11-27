@@ -16,10 +16,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 
 class SignUpActivity : AppCompatActivity() {
+    private val defaultFileName = "user.png"
     private lateinit var binding: ActivitySignUpBinding
     private var uri: Uri? = null
     private var filename: String = ""
@@ -50,11 +50,6 @@ class SignUpActivity : AppCompatActivity() {
         val password = binding.signupPasswd.text.toString()
         val passwordConfirm = binding.signupPasswdConfirm.text.toString()
 
-        // 사진이 없는 경우
-        if(uri == null) {
-            binding.warning.text = "사진을 선택해주세요."
-            return
-        }
         // 비밀번호가 6자 미만인 경우
         if(password.length < 6) {
             binding.warning.text = "비밀번호는 6자 이상이어야 합니다."
@@ -72,16 +67,34 @@ class SignUpActivity : AppCompatActivity() {
         // 비밀번호 확인이 맞은 경우 - 회원가입 성공!
         else {
             Firebase.auth.createUserWithEmailAndPassword(email, password) // 회원가입하고
-            uploadPhoto(uri!!,
-                mSuccessHandler = { filename ->
-                    this.filename = filename
-                    addAccountToDatabase(email)// Fire store에 계정 정보 넣기
-                    startActivity(Intent(this, LoginActivity::class.java)) // LoginActivity로 돌아가기
-                    finish()
-                },
-                mErrorHandler = {
+            if(uri == null) {
+                filename = defaultFileName
+                addAccountToDatabase(email)
+                startActivity(
+                    Intent(
+                        this,
+                        LoginActivity::class.java
+                    )
+                ) // LoginActivity로 돌아가기
+                finish()
+            }
+            else {
+                uploadPhoto(uri!!,
+                    mSuccessHandler = { filename ->
+                        this.filename = filename
+                        addAccountToDatabase(email)// Fire store에 계정 정보 넣기
+                        startActivity(
+                            Intent(
+                                this,
+                                LoginActivity::class.java
+                            )
+                        ) // LoginActivity로 돌아가기
+                        finish()
+                    },
+                    mErrorHandler = {
 
-                })
+                    })
+            }
         }
     }
 
