@@ -9,9 +9,8 @@
         android:id="@+id/profileImage"
         android:layout_width="26dp"
         android:layout_height="27dp"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/PostImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -19,7 +18,7 @@
         android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="33dp"
         android:text="userid"
         app:layout_constraintStart_toEndOf="@+id/profileImage"
@@ -28,7 +27,7 @@
     <ImageView
         android:id="@+id/PostImage"
         android:layout_width="108dp"
-        android:layout_height="93dp"
+        android:layout_height="100dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
