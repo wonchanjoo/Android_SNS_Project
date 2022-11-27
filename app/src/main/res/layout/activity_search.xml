@@ -13,7 +13,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="id"
+        android:hint="email의 id부분 검색"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
