@@ -1,6 +1,8 @@
 package com.example.sns_project
 
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,16 +13,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 
-data class ID(val id: String, val email : String) {
+data class ID(val id: String, val email : String, val image: String) {
     constructor(doc: QueryDocumentSnapshot) :
-            this(doc.id , doc["email"].toString())
+            this(doc.id , doc["email"].toString(), doc["image"].toString())
 }
 
 class FriendViewHolder(val binding: RecyclerviewSearchBinding) : RecyclerView.ViewHolder(binding.root)
 
 class SearchAdapter(private val context: Context, private var ids: List<ID>)
     : RecyclerView.Adapter<FriendViewHolder>() {
+    private lateinit var storageReference: StorageReference
     private val db: FirebaseFirestore = Firebase.firestore
     private val usersCollectionRef = db.collection("users") //users collection
     private  val useremail = Firebase.auth.currentUser?.email.toString() // 현재 로그인된 사용자 email
@@ -32,6 +37,7 @@ class SearchAdapter(private val context: Context, private var ids: List<ID>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
+        storageReference = Firebase.storage.reference
         val inflater = LayoutInflater.from(parent.context)
         val binding: RecyclerviewSearchBinding = RecyclerviewSearchBinding.inflate(inflater, parent, false)
         return FriendViewHolder(binding)
@@ -50,6 +56,14 @@ class SearchAdapter(private val context: Context, private var ids: List<ID>)
             holder.binding.followBtn.text = "팔로우"
         }
         holder.binding.followBtn.setOnClickListener { followCheck(holder,otheruser) }
+
+        val imageRef = storageReference.child(otheruser.image)
+        imageRef.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
+            val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+            holder.binding.userImage.setImageBitmap(bmp)
+        }?.addOnFailureListener {
+            Log.e("SearchAdapter", "user image error")
+        }
     }
 
     private fun followCheck(holder: FriendViewHolder, otheruser: ID){ //팔로우 상태를 확인 및 팔로우, 팔로우 취소 동작

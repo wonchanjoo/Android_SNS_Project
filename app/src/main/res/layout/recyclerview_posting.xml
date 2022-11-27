@@ -8,7 +8,6 @@
     android:layout_marginBottom="60dp">
 
     <ImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/userImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -16,7 +15,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/loading" />
+        app:srcCompat="@drawable/user" />
 
     <TextView
         android:id="@+id/id"
@@ -40,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userImage"
-        app:srcCompat="@drawable/sangsangbugi" />
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/likes"

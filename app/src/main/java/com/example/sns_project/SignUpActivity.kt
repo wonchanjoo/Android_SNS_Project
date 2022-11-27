@@ -27,7 +27,6 @@ class SignUpActivity : AppCompatActivity() {
         Firebase.storage
     }
     private val db : FirebaseFirestore = Firebase.firestore
-    private val usersCollectionRef = db.collection("users")
 
     companion object {
         const val REQUEST_GET_IMAGE= 2000
@@ -50,6 +49,13 @@ class SignUpActivity : AppCompatActivity() {
         val password = binding.signupPasswd.text.toString()
         val passwordConfirm = binding.signupPasswdConfirm.text.toString()
 
+        // 이메일에 @가 없는 경우
+        if(!email.contains("@")) {
+            binding.warning.text = "이메일 형식이 올바르지 않습니다."
+            binding.signupEmail.setText("")
+            binding.signupEmail.focusable
+            return
+        }
         // 비밀번호가 6자 미만인 경우
         if(password.length < 6) {
             binding.warning.text = "비밀번호는 6자 이상이어야 합니다."
@@ -76,6 +82,7 @@ class SignUpActivity : AppCompatActivity() {
                         LoginActivity::class.java
                     )
                 ) // LoginActivity로 돌아가기
+                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                 finish()
             }
             else {
@@ -89,6 +96,7 @@ class SignUpActivity : AppCompatActivity() {
                                 LoginActivity::class.java
                             )
                         ) // LoginActivity로 돌아가기
+                        Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                         finish()
                     },
                     mErrorHandler = {
