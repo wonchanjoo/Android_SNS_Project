@@ -72,24 +72,11 @@ class SignUpActivity : AppCompatActivity() {
         }
         // 비밀번호 확인이 맞은 경우 - 회원가입 성공!
         else {
-            Firebase.auth.createUserWithEmailAndPassword(email, password) // 회원가입하고
-            if(uri == null) {
-                filename = defaultFileName
-                addAccountToDatabase(email)
-                startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                ) // LoginActivity로 돌아가기
-                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            else {
-                uploadPhoto(uri!!,
-                    mSuccessHandler = { filename ->
-                        this.filename = filename
-                        addAccountToDatabase(email)// Fire store에 계정 정보 넣기
+            Firebase.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (uri == null) {
+                        filename = defaultFileName
+                        addAccountToDatabase(email)
                         startActivity(
                             Intent(
                                 this,
@@ -98,12 +85,31 @@ class SignUpActivity : AppCompatActivity() {
                         ) // LoginActivity로 돌아가기
                         Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                         finish()
-                    },
-                    mErrorHandler = {
+                    } else {
+                        uploadPhoto(uri!!,
+                            mSuccessHandler = { filename ->
+                                this.filename = filename
+                                addAccountToDatabase(email)// Fire store에 계정 정보 넣기
+                                startActivity(
+                                    Intent(
+                                        this,
+                                        LoginActivity::class.java
+                                    )
+                                ) // LoginActivity로 돌아가기
+                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                                finish()
+                            },
+                            mErrorHandler = {
 
-                    })
+                            })
+                    }
+                } else
+                {
+                    Toast.makeText(this,"Sing Up failed(이미 사용중인 이메일)",Toast.LENGTH_SHORT).show()
+                }
             }
         }
+
     }
 
     private fun returnBtnClick(){
