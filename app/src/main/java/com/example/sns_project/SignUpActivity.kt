@@ -105,7 +105,11 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 } else
                 {
-                    Toast.makeText(this,"Sing Up failed(이미 사용중인 이메일)",Toast.LENGTH_SHORT).show()
+                    binding.warning.text = "이미 존재하는 이메일입니다."
+                    binding.signupEmail.setText("")
+                    binding.signupPasswd.setText("")
+                    binding.signupPasswdConfirm.setText("")
+                    binding.signupEmail.focusable
                 }
             }
         }
